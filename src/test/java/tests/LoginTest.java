@@ -7,7 +7,7 @@ public class LoginTest extends BaseTest {
 
 
    @Test
-   //@Parameters ({"username", "password"})
+   @Parameters ({"username", "password"})
 
     public void successfulLogin() {
 
