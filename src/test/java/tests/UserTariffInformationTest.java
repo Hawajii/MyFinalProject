@@ -7,7 +7,8 @@ import pages.UserTariffsPage;
 public class UserTariffInformationTest extends BaseTest  {
 
 
-    @Test
+    @Test (priority =4)
+
     public void viewingUserTariff (){
 
         LoginPage loginPage = new LoginPage(driver);

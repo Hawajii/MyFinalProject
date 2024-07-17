@@ -11,107 +11,61 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-import static java.lang.Thread.sleep;
-
-
 public class UserTariffsPage {
 
     WebDriver driver;
-
     Actions actions;
 
+    By servicesButtonElement = By.xpath("//div[@class='vertical__nav-inner custom--scrollbar ps-container ps-theme-default']//a[@href='/lv/services'][contains(text(), 'Pakalpojumi')]");
+    By showMoreButtonElement = By.xpath("//a[@class='with-underline show-more-btn js-show-more-btn'][contains(text(), 'vai')]");
+    By tariffPlanPriceElement = By.xpath("//span[@class='price-tag__new']");
 
-    String servicesButtonXpath = "//div[@class='vertical__nav-inner custom--scrollbar ps-container ps-theme-default']//a[@href=\"/lv/services\"][contains(text(), 'Pakalpojumi')]";
-
-    String showMoreButtonXpath  = "//a[@class='with-underline show-more-btn js-show-more-btn'][contains(text(), 'vai')]";
-
-    String availableTariffPlansXpath = "//h2[contains(text(), 'Pieejamie')]";
-
-    String tariffPlanXpath  = "//span[contains(text(), 'Jaun')]";
-
-    String callsInLatviaXpath  = "//td[contains(text(), 'Latv')]";
-
-    String callsOutsideLatviaXpath  = "//td[contains(text(), 'Eirop')]";
-
-    String smsInLatviaXpath  = "//td[contains(text(), 'Viet')]";
-
-    String smsInEuropeXpath  = "//td[contains(text(), 'SMS Eirop')]";
-
-    String internetInLatviaXpath  = "//td[contains(text(), 'Internets Lat')]";
-
-    String internetInEuropeXpath  = "//td[contains(text(), 'Internets Eirop')]";
-
-    String tariffPlanPriceXpath  = "//span[@class='price-tag__new']";
-
-
-
+    By callsInLatviaElement = By.xpath("//td[img[@alt='Infinity']]");
+    By callsOutsideLatviaElement = By.xpath("//td[img[@alt='Infinity']]");
+    By smsInLatviaElement = By.xpath("//td[img[@alt='Infinity']]");
+    By smsInEuropeElement = By.xpath("//td[img[@alt='Infinity']]");
+    By internetInLatviaElement = By.xpath("//td[img[@alt='Infinity']]");
+    By internetInEuropeElement = By.xpath("//td[text()='20 GB']");
 
     public UserTariffsPage(WebDriver driver) {
-
         this.driver = driver;
         this.actions = new Actions(driver);
     }
 
-
-    public void viewingInformationAboutTariffs(){
-
+    public void viewingInformationAboutTariffs() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
-
-        WebElement servicesButton = driver.findElement(By.xpath(servicesButtonXpath));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(servicesButtonXpath)));
-        wait.until(ExpectedConditions.elementToBeClickable(servicesButton));
-
+        WebElement servicesButton = wait.until(ExpectedConditions.elementToBeClickable(servicesButtonElement));
         actions.moveToElement(servicesButton).click().build().perform();
 
-
-        WebElement showMoreButton = driver.findElement(By.xpath(showMoreButtonXpath));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(showMoreButtonXpath)));
-        wait.until(ExpectedConditions.elementToBeClickable(showMoreButton));
+        WebElement showMoreButton = wait.until(ExpectedConditions.elementToBeClickable(showMoreButtonElement));
         actions.moveToElement(showMoreButton).click().build().perform();
 
-        WebElement tariffPlanPrice = driver.findElement(By.xpath(tariffPlanPriceXpath));
+        WebElement tariffPlanPrice = wait.until(ExpectedConditions.presenceOfElementLocated(tariffPlanPriceElement));
         js.executeScript("arguments[0].scrollIntoView(true);", tariffPlanPrice);
 
+        WebElement callsInLatvia = wait.until(ExpectedConditions.presenceOfElementLocated(callsInLatviaElement));
+        WebElement callsOutsideLatvia = wait.until(ExpectedConditions.presenceOfElementLocated(callsOutsideLatviaElement));
+        WebElement smsInLatvia = wait.until(ExpectedConditions.presenceOfElementLocated(smsInLatviaElement));
+        WebElement smsInEurope = wait.until(ExpectedConditions.presenceOfElementLocated(smsInEuropeElement));
+        WebElement internetInLatvia = wait.until(ExpectedConditions.presenceOfElementLocated(internetInLatviaElement));
+        WebElement internetInEurope = wait.until(ExpectedConditions.presenceOfElementLocated(internetInEuropeElement));
 
+        String callsInLatviaValue = callsInLatvia.findElement(By.xpath(".//img")).getAttribute("alt");
+        String callsOutsideLatviaValue = callsOutsideLatvia.findElement(By.xpath(".//img")).getAttribute("alt");
+        String smsInLatviaValue = smsInLatvia.findElement(By.xpath(".//img")).getAttribute("alt");
+        String smsInEuropeValue = smsInEurope.findElement(By.xpath(".//img")).getAttribute("alt");
+        String internetInLatviaValue = internetInLatvia.findElement(By.xpath(".//img")).getAttribute("alt");
+        String internetInEuropeValue = internetInEurope.getText();
 
-        WebElement callsInLatvia = driver.findElement(By.xpath(callsInLatviaXpath));
-        WebElement callsOutsideLatvia = driver.findElement(By.xpath(callsOutsideLatviaXpath));
-        WebElement smsInLatvia = driver.findElement(By.xpath(smsInLatviaXpath));
-        WebElement smsInEurope = driver.findElement(By.xpath(smsInEuropeXpath));
-        WebElement internetInLatvia = driver.findElement(By.xpath(internetInLatviaXpath));
-        WebElement internetInEurope = driver.findElement(By.xpath(internetInEuropeXpath));
-
-
-
-        String callsInLatviaValue = driver.findElement(By.xpath("//img[@alt='Infinity']")).getAttribute("alt");
-        String callsOutsideLatviaValue = driver.findElement(By.xpath("//img[@alt='Infinity']")).getAttribute("alt");
-        String smsInLatviaValue = driver.findElement(By.xpath("//img[@alt='Infinity']")).getAttribute("alt");
-        String smsInEuropeValue = driver.findElement(By.xpath("//img[@alt='Infinity']")).getAttribute("alt");
-        String internetInLatviaValue = driver.findElement(By.xpath("//img[@alt='Infinity']")).getAttribute("alt");
-        String internetInEuropeValue = driver.findElement(By.xpath("//td[text()=\"20 GB\"]")).getText();
-
-
-
-        Assert.assertEquals("Infinity", callsInLatviaValue);
-        Assert.assertEquals("Infinity", callsOutsideLatviaValue);
-        Assert.assertEquals("Infinity", smsInLatviaValue);
-        Assert.assertEquals("Infinity", smsInEuropeValue);
-        Assert.assertEquals("Infinity", internetInLatviaValue);
-        Assert.assertEquals("20 GB", internetInEuropeValue);
-
+        Assert.assertEquals(callsInLatviaValue, "Infinity", "Calls in Latvia value is not 'Infinity'. Actual: " + callsInLatviaValue);
+        Assert.assertEquals(callsOutsideLatviaValue, "Infinity", "Calls outside Latvia value is not 'Infinity'. Actual: " + callsOutsideLatviaValue);
+        Assert.assertEquals(smsInLatviaValue, "Infinity", "SMS in Latvia value is not 'Infinity'. Actual: " + smsInLatviaValue);
+        Assert.assertEquals(smsInEuropeValue, "Infinity", "SMS in Europe value is not 'Infinity'. Actual: " + smsInEuropeValue);
+        Assert.assertEquals(internetInLatviaValue, "Infinity", "Internet in Latvia value is not 'Infinity'. Actual: " + internetInLatviaValue);
+        Assert.assertEquals(internetInEuropeValue, "20 GB", "Internet in Europe value is not '20 GB'. Actual: " + internetInEuropeValue);
 
         System.out.println("All assertions passed.");
-
-
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
     }
-
 }
